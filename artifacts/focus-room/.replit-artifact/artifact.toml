@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Focus Room"
+description = "A calm, personal productivity dashboard with a customizable Pomodoro timer, a saved to-do list, and browser-based ambient sound controls."
+version = "1.0.0"
+id = "artifacts/focus-room"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23959
+
+[services.development]
+run = "pnpm --filter @workspace/focus-room run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/focus-room", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/focus-room/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23959"
+BASE_PATH = "/"
